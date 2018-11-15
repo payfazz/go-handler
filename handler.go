@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// Handler func alias
+// Handler func alias for processing http request
 type Handler func(*http.Request) Response
 
 // Convert Handler to http.Handler

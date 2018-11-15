@@ -2,7 +2,7 @@ package handler
 
 import "net/http"
 
-// MergeHeader merge http.Header
+// MergeHeader merge http.Header src into dst, and return dst
 func MergeHeader(dst, src http.Header) http.Header {
 	if dst == nil {
 		dst = make(http.Header)

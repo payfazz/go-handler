@@ -5,12 +5,23 @@ import (
 	"net/http"
 )
 
+// ResponseAdapter func alias
+type ResponseAdapter func(resp Response) http.HandlerFunc
+
 // Response representation
 type Response struct {
+	// HTTP Response Status Code
 	Status int
-	Header http.Header
-	Body   io.ReadCloser
 
+	// Header
+	Header http.Header
+
+	// This body will be closed at the end of the handler
+	// wrap with ioutil.NopCloser if you want to keep it open
+	Body io.ReadCloser
+
+	// This Adapter is used for converting this Response
+	// into http.HandlerFunc, if nil it will use default Adapter
 	Adapter ResponseAdapter
 }
 
@@ -19,9 +30,6 @@ func (r Response) WithMergedHeader(src http.Header) Response {
 	r.Header = MergeHeader(r.Header, src)
 	return r
 }
-
-// ResponseAdapter func alias
-type ResponseAdapter func(resp Response) http.HandlerFunc
 
 // Convert Response to http.HandlerFunc
 func (r Response) Convert() http.HandlerFunc {
