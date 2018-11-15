@@ -23,6 +23,15 @@ func (r Response) WithMergedHeader(src http.Header) Response {
 // ResponseAdapter func alias
 type ResponseAdapter func(resp Response) http.HandlerFunc
 
+// Convert Response to http.HandlerFunc
+func (r Response) Convert() http.HandlerFunc {
+	if r.Adapter != nil {
+		return r.Adapter(r)
+	}
+
+	return defAdapter(r)
+}
+
 func defAdapter(resp Response) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		MergeHeader(w.Header(), resp.Header)

@@ -10,14 +10,9 @@ import (
 // Handler func alias
 type Handler func(*http.Request) Response
 
-// From convert Handler to http.Handler
-func From(h Handler) http.HandlerFunc {
+// Convert Handler to http.Handler
+func Convert(h Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		resp := h(r)
-		if resp.Adapter != nil {
-			resp.Adapter(resp)(w, r)
-		} else {
-			defAdapter(resp)(w, r)
-		}
+		h(r).Convert()(w, r)
 	}
 }

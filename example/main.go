@@ -9,8 +9,8 @@ import (
 
 func main() {
 	h := http.NewServeMux()
-	h.HandleFunc("/", handler.From(root))
-	h.HandleFunc("/test", handler.From(test))
+	h.HandleFunc("/", handler.Convert(root))
+	h.HandleFunc("/test", handler.Convert(test))
 
 	if err := http.ListenAndServe(":8080", h); err != nil {
 		panic(err)
