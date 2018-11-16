@@ -8,7 +8,8 @@ import (
 // ResponseAdapter func alias
 type ResponseAdapter func(resp Response) http.HandlerFunc
 
-// Response representation
+// Response representation.
+// Response is not reusable, do not use it after executed
 type Response struct {
 	// HTTP Response Status Code
 	Status int
@@ -29,15 +30,6 @@ type Response struct {
 func (r Response) WithMergedHeader(src http.Header) Response {
 	r.Header = MergeHeader(r.Header, src)
 	return r
-}
-
-// Convert Response to http.HandlerFunc
-func (r Response) Convert() http.HandlerFunc {
-	if r.Adapter != nil {
-		return r.Adapter(r)
-	}
-
-	return defAdapter(r)
 }
 
 func defAdapter(resp Response) http.HandlerFunc {
