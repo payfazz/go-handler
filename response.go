@@ -9,7 +9,8 @@ import (
 type ResponseAdapter func(resp Response) http.HandlerFunc
 
 // Response representation.
-// Response is not reusable, do not use it after executed
+// Response is not reusable, do not use it in multiple request,
+// because Body are already closed at the end of first execution
 type Response struct {
 	// HTTP Response Status Code
 	Status int
@@ -35,9 +36,10 @@ func (r Response) WithMergedHeader(src http.Header) Response {
 func defAdapter(resp Response) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		MergeHeader(w.Header(), resp.Header)
-		if resp.Status != 0 {
-			w.WriteHeader(resp.Status)
+		if resp.Status == 0 {
+			resp.Status = http.StatusOK
 		}
+		w.WriteHeader(resp.Status)
 		if resp.Body != nil {
 			io.Copy(w, resp.Body)
 			resp.Body.Close()
