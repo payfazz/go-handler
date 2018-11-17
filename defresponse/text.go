@@ -10,6 +10,10 @@ import (
 
 // Text as handler.Response
 func Text(status int, data string) handler.Response {
+	if data == "" {
+		return handler.Response{Status: status}
+	}
+
 	return handler.Response{
 		Status: status,
 		Header: http.Header{
