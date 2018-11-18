@@ -10,18 +10,15 @@ import (
 // Handler func alias for processing http request
 type Handler func(*http.Request) Response
 
-// From Handler to http.Handler
-func From(h Handler) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		Execute(h(r), w, r)
-	}
+func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	Execute(h(r), w, r)
 }
 
 // Execute the Response
 func Execute(resp Response, w http.ResponseWriter, r *http.Request) {
-	adapter := resp.Adapter
-	if adapter == nil {
-		adapter = defAdapter
+	executor := resp.Executor
+	if executor == nil {
+		executor = DefaultExecutor
 	}
-	adapter(resp)(w, r)
+	executor(resp, w, r)
 }

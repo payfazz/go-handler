@@ -5,44 +5,52 @@ import (
 	"net/http"
 )
 
-// ResponseAdapter func alias
-type ResponseAdapter func(resp Response) http.HandlerFunc
+// Executor func alias
+// It MUST close the resp after the execution is done
+type Executor func(resp Response, w http.ResponseWriter, r *http.Request)
+
+// DefaultExecutor .
+func DefaultExecutor(resp Response, w http.ResponseWriter, r *http.Request) {
+	defer resp.Close()
+	MergeHeader(w.Header(), resp.Header)
+	if resp.Status == 0 {
+		resp.Status = http.StatusOK
+	}
+	if resp.Status != 0 {
+		w.WriteHeader(resp.Status)
+	}
+	if resp.Body != nil {
+		io.Copy(w, resp.Body)
+	}
+}
 
 // Response representation.
-// Response is not reusable, do not use it in multiple request,
-// because Body are already closed at the end of first execution
+// Response is not reusable, do not use it in multiple request.
+// Response MUST be closed by the executor
+// Once created, Response should be considered as immutable, i.e. do not change its field
 type Response struct {
-	// HTTP Response Status Code
+	// HTTP Response Status Code.
+	// if zero-value (0), then http.StatusOK is used by default executor
 	Status int
 
-	// Header
+	// HTTP Header.
+	// if zero-value (nil), then no header is writen by default executor
 	Header http.Header
 
-	// This body will be closed at the end of the handler
-	// wrap with ioutil.NopCloser if you want to keep it open
+	// The Body, this body is closed when Response.Close is called.
+	// if zero-value (nil), then no body is writen by default executor.
+	// this body is closed when the Response.Close is called
 	Body io.ReadCloser
 
-	// This Adapter is used for converting this Response
-	// into http.HandlerFunc, if nil it will use default Adapter
-	Adapter ResponseAdapter
+	// This Executor is used for executing the Response.
+	// if zero-value (nil), then default executor will be used
+	Executor Executor
 }
 
-// WithMergedHeader create new Response with headers are merged
-func (r Response) WithMergedHeader(src http.Header) Response {
-	r.Header = MergeHeader(r.Header, src)
-	return r
-}
-
-func defAdapter(resp Response) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		MergeHeader(w.Header(), resp.Header)
-		if resp.Status == 0 {
-			resp.Status = http.StatusOK
-		}
-		w.WriteHeader(resp.Status)
-		if resp.Body != nil {
-			io.Copy(w, resp.Body)
-			resp.Body.Close()
-		}
+// Close the resource owned by this Response
+func (r *Response) Close() error {
+	if r.Body != nil {
+		return r.Body.Close()
 	}
+	return nil
 }

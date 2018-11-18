@@ -9,8 +9,8 @@ import (
 
 func main() {
 	h := http.NewServeMux()
-	h.HandleFunc("/", handler.From(root))
-	h.HandleFunc("/test", handler.From(test))
+	h.Handle("/", handler.Handler(root))
+	h.Handle("/test", handler.Handler(test))
 
 	if err := http.ListenAndServe(":8080", h); err != nil {
 		panic(err)
@@ -22,13 +22,16 @@ func root(r *http.Request) handler.Response {
 	customHeader.Set("X-Asdf", "lala")
 	customHeader.Set("X-Lala", "asdf")
 
-	return defresponse.JSON(http.StatusOK, struct {
-		A string `json:"a"`
-		B string `json:"b"`
-	}{
-		A: "Hello world",
-		B: r.URL.EscapedPath(),
-	}).WithMergedHeader(customHeader)
+	return handler.MergeRespHeader(
+		customHeader,
+		defresponse.JSON(http.StatusOK, struct {
+			A string `json:"a"`
+			B string `json:"b"`
+		}{
+			A: "Hello world",
+			B: r.URL.EscapedPath(),
+		}),
+	)
 }
 
 func test(r *http.Request) handler.Response {
