@@ -7,7 +7,8 @@ import (
 	"github.com/payfazz/go-handler"
 )
 
-// JSON as handler.Response
+// JSON as Response.
+// the error of marshaling json is ignored.
 func JSON(status int, data interface{}) handler.Response {
 	return handler.Response{
 		Status: status,

@@ -6,7 +6,7 @@ import (
 	"github.com/payfazz/go-handler"
 )
 
-// Redirect as handler.Response
+// Redirect as Response.
 func Redirect(status int, url string) handler.Response {
 	return handler.Response{
 		Status: status,

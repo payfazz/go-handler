@@ -8,7 +8,7 @@ import (
 	"github.com/payfazz/go-handler"
 )
 
-// Data as handler.Response
+// Data as Response.
 func Data(status int, contentType string, data []byte) handler.Response {
 	if len(data) == 0 {
 		return handler.Response{Status: status}
