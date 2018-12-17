@@ -12,12 +12,11 @@ import (
 func JSON(status int, data interface{}) handler.Response {
 	return handler.Response{
 		Status: status,
-		Executor: func(resp handler.Response, w http.ResponseWriter, r *http.Request) {
-			defer resp.Close()
+		Executor: func(resp handler.Response, w http.ResponseWriter, r *http.Request) error {
 			handler.MergeHeader(w.Header(), resp.Header)
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(resp.Status)
-			json.NewEncoder(w).Encode(data)
+			return json.NewEncoder(w).Encode(data)
 		},
 	}
 }
