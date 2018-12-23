@@ -3,7 +3,7 @@ package defresponse
 import (
 	"net/http"
 
-	"github.com/payfazz/go-handler"
+	handler "github.com/payfazz/go-handler"
 )
 
 // Redirect as Response.
