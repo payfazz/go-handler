@@ -48,6 +48,6 @@ func h(r *http.Requset) handler.Response {
 
     ...
 
-    return defresponse.Text(200, "some error 1") // we can't forget this, because it'll be compile error if there is no `return`
+    return defresponse.Text(200, "some data") // we can't forget this, because it'll be compile error if there is no `return`
 }
 ```
