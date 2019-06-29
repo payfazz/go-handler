@@ -9,15 +9,15 @@ import (
 
 func main() {
 	h := http.NewServeMux()
-	h.Handle("/", handler.Wrap(root))
-	h.Handle("/test", handler.Wrap(test))
+	h.Handle("/", handler.Of(root))
+	h.Handle("/test", handler.Of(test))
 
 	if err := http.ListenAndServe(":8080", h); err != nil {
 		panic(err)
 	}
 }
 
-func root(r *http.Request) handler.Response {
+func root(r *http.Request) *handler.Response {
 	customHeader := make(http.Header)
 	customHeader.Set("X-Asdf", "lala")
 	customHeader.Set("X-Lala", "asdf")
@@ -34,7 +34,7 @@ func root(r *http.Request) handler.Response {
 	)
 }
 
-func test(r *http.Request) handler.Response {
+func test(r *http.Request) *handler.Response {
 	if r.Header.Get("Authorization") == "" {
 		return defresponse.Status(http.StatusUnauthorized)
 	}

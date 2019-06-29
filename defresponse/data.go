@@ -1,8 +1,6 @@
 package defresponse
 
 import (
-	"bytes"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -10,17 +8,21 @@ import (
 )
 
 // Data as Response.
-func Data(status int, contentType string, data []byte) handler.Response {
+func Data(status int, contentType string, data []byte) *handler.Response {
 	if len(data) == 0 {
-		return handler.Response{Status: status}
+		return handler.
+			NewResponseBuilder().
+			WithStatus(status).
+			Build()
 	}
 
-	return handler.Response{
-		Status: status,
-		Header: http.Header{
+	return handler.
+		NewResponseBuilder().
+		WithStatus(status).
+		WithHeader(http.Header{
 			"Content-Type":   []string{contentType},
 			"Content-Length": []string{strconv.Itoa(len(data))},
-		},
-		Body: ioutil.NopCloser(bytes.NewReader(data)),
-	}
+		}).
+		WithBody(data).
+		Build()
 }

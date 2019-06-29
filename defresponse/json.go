@@ -8,17 +8,14 @@ import (
 )
 
 // JSON as Response.
-// the error of marshaling json is ignored.
-func JSON(status int, data interface{}) handler.Response {
-	return handler.Response{
-		Status: status,
-		Executor: func(resp handler.Response, w http.ResponseWriter, r *http.Request) {
-			handler.MergeHeader(w.Header(), resp.Header)
-			w.Header()["Content-Type"] = []string{"application/json"}
-			if resp.Status != 0 {
-				w.WriteHeader(resp.Status)
-			}
+// the error of json.Encoder.Encode is ignored.
+func JSON(status int, data interface{}) *handler.Response {
+	return handler.
+		NewResponseBuilder().
+		WithHandler(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(status)
 			json.NewEncoder(w).Encode(data)
-		},
-	}
+		}).
+		Build()
 }
