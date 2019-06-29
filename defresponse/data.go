@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	handler "github.com/payfazz/go-handler"
+	"github.com/payfazz/go-handler"
 )
 
 // Data as Response.

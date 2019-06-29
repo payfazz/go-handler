@@ -1,6 +1,3 @@
-// Package handler provide new signature for handling http request.
-//
-// for example usage, see example directory.
 package handler
 
 import "net/http"

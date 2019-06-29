@@ -1,6 +1,6 @@
 package defresponse
 
-import handler "github.com/payfazz/go-handler"
+import "github.com/payfazz/go-handler"
 
 // Text as Response.
 func Text(status int, data string) *handler.Response {

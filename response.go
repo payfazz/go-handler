@@ -47,8 +47,12 @@ func (b *ResponseBuilder) WithBody(body []byte) *ResponseBuilder {
 	return b
 }
 
-// WithHandler set raw handler to the Response and override the normal behaviour
-func (b *ResponseBuilder) WithHandler(f http.HandlerFunc) *ResponseBuilder {
+// WithRawHandler set raw handler to the Response.
+//
+// It will override the normal behaviour and completely ignore the Response object.
+//
+// See defresponse.Json how to use this
+func (b *ResponseBuilder) WithRawHandler(f http.HandlerFunc) *ResponseBuilder {
 	b.inner.handler = f
 	return b
 }

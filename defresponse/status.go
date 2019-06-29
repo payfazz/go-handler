@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	handler "github.com/payfazz/go-handler"
+	"github.com/payfazz/go-handler"
 )
 
 // Status as Response.

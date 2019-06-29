@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	handler "github.com/payfazz/go-handler"
+	"github.com/payfazz/go-handler"
 	"github.com/payfazz/go-handler/defresponse"
 )
 

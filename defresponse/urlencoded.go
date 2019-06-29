@@ -3,7 +3,7 @@ package defresponse
 import (
 	"net/url"
 
-	handler "github.com/payfazz/go-handler"
+	"github.com/payfazz/go-handler"
 )
 
 // URLEncoded as Response.
