@@ -52,6 +52,10 @@ func h(r *http.Requset) *handler.Response {
 }
 ```
 
+see https://github.com/payfazz/go-middleware for middleware
+
+see https://github.com/payfazz/go-router for router
+
 ## TODO
 * create example and doc
 * unit test
