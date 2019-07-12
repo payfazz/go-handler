@@ -7,16 +7,13 @@ func Of(h func(*http.Request) *Response) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		resp := h(r)
 
-		if resp.handler != nil {
-			resp.handler(w, r)
+		if resp == nil {
 			return
 		}
 
-		mergeHeader(w.Header(), resp.header)
-		w.WriteHeader(resp.status)
-
-		if resp.body != nil {
-			w.Write(resp.body)
+		mergeHeader(w.Header(), resp.extraHeader)
+		if resp.handler != nil {
+			resp.handler(w, r)
 		}
 	}
 }

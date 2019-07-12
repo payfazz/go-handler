@@ -9,20 +9,14 @@ import (
 
 // Data as Response.
 func Data(status int, contentType string, data []byte) *handler.Response {
-	if len(data) == 0 {
-		return handler.
-			NewResponseBuilder().
-			WithStatus(status).
-			Build()
-	}
-
-	return handler.
-		NewResponseBuilder().
-		WithStatus(status).
-		WithHeader(http.Header{
-			"Content-Type":   []string{contentType},
-			"Content-Length": []string{strconv.Itoa(len(data))},
-		}).
-		WithBody(data).
-		Build()
+	return handler.NewResponse(func(w http.ResponseWriter, r *http.Request) {
+		if len(data) != 0 {
+			w.Header().Set("Content-Type", contentType)
+			w.Header().Set("Content-Length", strconv.Itoa(len(data)))
+		}
+		w.WriteHeader(status)
+		if len(data) != 0 {
+			w.Write(data)
+		}
+	})
 }
