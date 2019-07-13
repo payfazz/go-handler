@@ -8,18 +8,19 @@ import (
 )
 
 func Example() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/hello", handler.Of(func(r *http.Request) *handler.Response {
+	http.HandleFunc("/hello", handler.Of(func(r *http.Request) *handler.Response {
 		return defresponse.Text(200, "Hello")
 	}))
-	mux.HandleFunc("/hello-with-header", handler.Of(func(r *http.Request) *handler.Response {
-		return handler.MergeRespHeader(http.Header{
+
+	http.HandleFunc("/hello-with-header", handler.Of(func(r *http.Request) *handler.Response {
+		return handler.MergeHeader(http.Header{
 			"Test-Header": {"test header value"},
 		},
 			defresponse.Text(200, "Hello"),
 		)
 	}))
-	if err := http.ListenAndServe(":8080", mux); err != nil {
+
+	if err := http.ListenAndServe(":8080", nil); err != nil {
 		panic(err)
 	}
 }

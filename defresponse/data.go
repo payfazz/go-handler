@@ -9,7 +9,7 @@ import (
 
 // Data as Response.
 func Data(status int, contentType string, data []byte) *handler.Response {
-	return handler.NewResponse(func(w http.ResponseWriter, r *http.Request) {
+	return handler.New(func(w http.ResponseWriter, r *http.Request) {
 		if len(data) != 0 {
 			w.Header().Set("Content-Type", contentType)
 			w.Header().Set("Content-Length", strconv.Itoa(len(data)))

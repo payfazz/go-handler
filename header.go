@@ -14,8 +14,10 @@ func mergeHeader(dst, src http.Header) http.Header {
 	return dst
 }
 
-// MergeRespHeader is used to add extra header to the response
-func MergeRespHeader(header http.Header, resp *Response) *Response {
+// MergeHeader is used to add extra header to the response.
+//
+// see Example for how to use this function.
+func MergeHeader(header http.Header, resp *Response) *Response {
 	resp.extraHeader = mergeHeader(resp.extraHeader, header)
 	return resp
 }

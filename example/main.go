@@ -22,7 +22,7 @@ func root(r *http.Request) *handler.Response {
 	customHeader.Set("X-Asdf", "lala")
 	customHeader.Set("X-Lala", "asdf")
 
-	return handler.MergeRespHeader(
+	return handler.MergeHeader(
 		customHeader,
 		defresponse.JSON(http.StatusOK, struct {
 			A string `json:"a"`
