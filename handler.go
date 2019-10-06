@@ -11,17 +11,7 @@ type Response struct {
 // Of wrap h into normal http.HandlerFunc
 func Of(h func(*http.Request) *Response) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		resp := h(r)
-
-		if resp == nil {
-			return
-		}
-
-		mergeHeader(w.Header(), resp.extraHeader)
-
-		if resp.handler != nil {
-			resp.handler(w, r)
-		}
+		Execute(h(r), w, r)
 	}
 }
 
@@ -30,4 +20,17 @@ func Of(h func(*http.Request) *Response) http.HandlerFunc {
 // You should use defresponse package. Use this function if defresponse is not enough for you.
 func New(handler http.HandlerFunc) *Response {
 	return &Response{handler: handler}
+}
+
+// Execute the resp
+func Execute(resp *Response, w http.ResponseWriter, r *http.Request) {
+	if resp == nil {
+		return
+	}
+
+	mergeHeader(w.Header(), resp.extraHeader)
+
+	if resp.handler != nil {
+		resp.handler(w, r)
+	}
 }
