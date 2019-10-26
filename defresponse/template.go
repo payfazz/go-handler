@@ -1,8 +1,8 @@
 package defresponse
 
 import (
+	"html/template"
 	"net/http"
-	"text/template"
 
 	"github.com/payfazz/go-handler"
 )
