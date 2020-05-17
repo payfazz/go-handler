@@ -8,10 +8,11 @@ import (
 )
 
 // HTMLTemplate render template as a response.
-func HTMLTemplate(code int, template *template.Template, data interface{}) *handler.Response {
+func HTMLTemplate(code int, template *template.Template, data interface{}) handler.Response {
 	return handler.New(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 		w.WriteHeader(code)
+
 		template.Execute(w, data)
 	})
 }

@@ -17,7 +17,7 @@ func main() {
 	}
 }
 
-func root(r *http.Request) *handler.Response {
+func root(r *http.Request) handler.Response {
 	customHeader := make(http.Header)
 	customHeader.Set("X-Asdf", "lala")
 	customHeader.Set("X-Lala", "asdf")
@@ -34,7 +34,7 @@ func root(r *http.Request) *handler.Response {
 	)
 }
 
-func test(r *http.Request) *handler.Response {
+func test(r *http.Request) handler.Response {
 	if r.Header.Get("Authorization") == "" {
 		return defresponse.Status(http.StatusUnauthorized)
 	}
