@@ -8,11 +8,11 @@ import (
 )
 
 func Example() {
-	http.HandleFunc("/hello", handler.Of(func(r *http.Request) *handler.Response {
+	http.HandleFunc("/hello", handler.Of(func(r *http.Request) handler.Response {
 		return defresponse.Text(200, "Hello")
 	}))
 
-	http.HandleFunc("/hello-with-header", handler.Of(func(r *http.Request) *handler.Response {
+	http.HandleFunc("/hello-with-header", handler.Of(func(r *http.Request) handler.Response {
 		return handler.MergeHeader(http.Header{
 			"Test-Header": {"test header value"},
 		},

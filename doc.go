@@ -52,6 +52,5 @@ Now we can write it like this:
 Then use Of function to get old signature back
 	http.ListenAndServe(":8080", handler.Of(h))
 
-see also https://github.com/payfazz/go-handler
 */
 package handler

@@ -13,11 +13,6 @@ type Response struct {
 	handler     http.HandlerFunc
 }
 
-// static type checking
-var (
-	_ http.Handler = Response{}
-)
-
 // ServeHTTP execute the resp
 func (resp Response) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if resp.handler != nil {
