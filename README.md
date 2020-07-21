@@ -34,7 +34,7 @@ func h(w http.ResponseWriter, r *http.Request) {
 we can rewrite it like this:
 
 ```go
-func h(r *http.Requset) *handler.Response {
+func h(r *http.Requset) handler.Response {
     if ... {
         return defresponse.Text(500, "some error 1")
     }

@@ -9,7 +9,7 @@ The standard signature for handling http request is:
 it is not convenience to write branching inside it.
 
 So we create new signature for handling http request
-	func h(r *http.Requset) *handler.Response
+	func h(r *http.Requset) handler.Response
 
 Consider the following:
 	func h(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ Consider the following:
 	}
 
 Now we can write it like this:
-	func h(r *http.Requset) *handler.Response {
+	func h(r *http.Requset) handler.Response {
 		if ... {
 			return defresponse.Text(500, "some error 1")
 		}
