@@ -51,11 +51,3 @@ func h(r *http.Requset) handler.Response {
     return defresponse.Text(200, "some data") // we can't forget this, because it'll be compile error if there is no `return`
 }
 ```
-
-see https://github.com/payfazz/go-middleware for middleware
-
-see https://github.com/payfazz/go-router for router
-
-## TODO
-* create example and doc
-* unit test

@@ -2,11 +2,6 @@ package handler
 
 import "net/http"
 
-// Note to anyone who read this sourcecode
-// Response and http.HandlerFunc are isomorphic, so it can be converted to each other
-// -- Response         -> http.HandlerFunc : use Response.ServeHTTP
-// -- http.HandlerFunc -> Response         : use New
-
 // Response representation.
 type Response struct {
 	extraHeader http.Header
