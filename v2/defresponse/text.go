@@ -1,10 +1,8 @@
 package defresponse
 
-import (
-	"github.com/payfazz/go-handler"
-)
+import "net/http"
 
 // Text as Response.
-func Text(status int, data string) handler.Response {
+func Text(status int, data string) http.HandlerFunc {
 	return Data(status, "text/plain; charset=utf-8", []byte(data))
 }

@@ -1,6 +1,6 @@
 # go-handler
 
-[![GoDoc](https://godoc.org/github.com/payfazz/go-handler?status.svg)](https://godoc.org/github.com/payfazz/go-handler)
+[![GoDoc](https://godoc.org/github.com/payfazz/go-handler/v2?status.svg)](https://godoc.org/github.com/payfazz/go-handler/v2)
 
 Package handler provide new signature for handling http request.
 
@@ -14,7 +14,8 @@ For example:
 func h(w http.ResponseWriter, r *http.Request) {
     if ... {
         http.Error(w, "some error 1", 500)
-        return // it will be disaster if we forget this return
+        // it will be disaster if we forget this return
+        return
     }
 
     ...
@@ -22,11 +23,11 @@ func h(w http.ResponseWriter, r *http.Request) {
 
     if ... {
         http.Error(w, "some error 2", 500)
-        return // it will be disaster if we forget this return
+        // it will be disaster if we forget this return
+        return
     }
 
     ...
-
     fmt.Fprintln(w, "some data")
 }
 ```
@@ -34,7 +35,7 @@ func h(w http.ResponseWriter, r *http.Request) {
 we can rewrite it like this:
 
 ```go
-func h(r *http.Requset) handler.Response {
+func h(r *http.Requset) http.HandlerFunc {
     if ... {
         return defresponse.Text(500, "some error 1")
     }
@@ -48,6 +49,7 @@ func h(r *http.Requset) handler.Response {
 
     ...
 
-    return defresponse.Text(200, "some data") // we can't forget this, because it'll be compile error if there is no `return`
+    // we can't forget this, because it'll be compile error if there is no `return`
+    return defresponse.Text(200, "some data")
 }
 ```

@@ -9,13 +9,14 @@ The standard signature for handling http request is:
 it is not convenience to write branching inside it.
 
 So we create new signature for handling http request
-	func h(r *http.Requset) handler.Response
+	func h(r *http.Requset) http.HandlerFunc
 
 Consider the following:
 	func h(w http.ResponseWriter, r *http.Request) {
 		if ... {
 			http.Error(w, "some error 1", 500)
-			return // it will be disaster if we forget this return
+			// it will be disaster if we forget this return
+			return
 		}
 
 		...
@@ -23,7 +24,8 @@ Consider the following:
 
 		if ... {
 			http.Error(w, "some error 2", 500)
-			return // it will be disaster if we forget this return
+			// it will be disaster if we forget this return
+			return
 		}
 
 		...
@@ -32,7 +34,7 @@ Consider the following:
 	}
 
 Now we can write it like this:
-	func h(r *http.Requset) handler.Response {
+	func h(r *http.Requset) http.HandlerFunc {
 		if ... {
 			return defresponse.Text(500, "some error 1")
 		}
@@ -46,7 +48,8 @@ Now we can write it like this:
 
 		...
 
-		return defresponse.Text(200, "some data") // we can't forget this, because it'll be compile error if there is no `return`
+		// we can't forget this, because it'll be compile error if there is no `return`
+		return defresponse.Text(200, "some data")
 	}
 
 Then use Of function to get old signature back
