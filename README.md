@@ -1,10 +1,8 @@
 # go-handler
 
-[![GoDoc](https://godoc.org/github.com/payfazz/go-handler/v2?status.svg)](https://godoc.org/github.com/payfazz/go-handler/v2)
+[![GoDoc](https://pkg.go.dev/badge/github.com/payfazz/go-handler/v2)](https://pkg.go.dev/github.com/payfazz/go-handler/v2)
 
 Package handler provide new signature for handling http request.
-
-see example directory.
 
 stdlib Handler signature is `func(http.ResponseWriter, *http.Request)`, and it is not convenience to write branching inside it.
 
@@ -20,7 +18,6 @@ func h(w http.ResponseWriter, r *http.Request) {
 
     ...
 
-
     if ... {
         http.Error(w, "some error 2", 500)
         // it will be disaster if we forget this return
@@ -28,6 +25,7 @@ func h(w http.ResponseWriter, r *http.Request) {
     }
 
     ...
+
     fmt.Fprintln(w, "some data")
 }
 ```
@@ -49,7 +47,7 @@ func h(r *http.Requset) http.HandlerFunc {
 
     ...
 
-    // we can't forget this, because it'll be compile error if there is no `return`
+    // will compile error if we forget return
     return defresponse.Text(200, "some data")
 }
 ```
