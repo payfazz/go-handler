@@ -30,10 +30,10 @@ func h(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-we can rewrite it like this:
+we can rewrite it like this to force developer to return when the branch of the code end:
 
 ```go
-func h(r *http.Requset) http.HandlerFunc {
+func h(r *http.Request) http.HandlerFunc {
     if ... {
         return defresponse.Text(500, "some error 1")
     }
