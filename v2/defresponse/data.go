@@ -8,7 +8,9 @@ import (
 // Data as Response.
 func Data(status int, contentType string, data []byte) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", contentType)
+		if contentType != "" {
+			w.Header().Set("Content-Type", contentType)
+		}
 		w.Header().Set("Content-Length", strconv.Itoa(len(data)))
 		w.WriteHeader(status)
 
