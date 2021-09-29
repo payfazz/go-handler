@@ -52,5 +52,7 @@ Now we can write it like this:
 Then use Of function to get old signature back
 	http.ListenAndServe(":8080", handler.Of(h))
 
+
+NOTE: v1 is not maintaned anymore, please use v2
 */
 package handler
