@@ -1,0 +1,17 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - v2
+  push:
+    branches:
+      - v2
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+      - uses: actions/checkout@v2
+      - run: cd v2 && go test -race ./...
