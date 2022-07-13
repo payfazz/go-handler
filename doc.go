@@ -1,8 +1,7 @@
 /*
-
 Package handler provide new signature for handling http request.
 
-Motivation
+# Motivation
 
 The standard signature for handling http request is:
 
@@ -15,6 +14,7 @@ So let use following signature for handling http request
 	func h(r *http.Requset) http.HandlerFunc
 
 Consider the following:
+
 	func h(w http.ResponseWriter, r *http.Request) {
 		if ... {
 			http.Error(w, "some error 1", 500)
@@ -58,6 +58,5 @@ Now we can write it like this:
 Then use Of function to get old signature back
 
 	http.ListenAndServe(":8080", handler.Of(h))
-
 */
 package handler
