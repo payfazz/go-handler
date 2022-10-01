@@ -6,7 +6,7 @@ import (
 )
 
 // JSON as Response.
-func JSON(status int, data interface{}) http.HandlerFunc {
+func JSON(status int, data any) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(status)
@@ -16,7 +16,7 @@ func JSON(status int, data interface{}) http.HandlerFunc {
 }
 
 // JSONPretty as Response.
-func JSONPretty(status int, data interface{}) http.HandlerFunc {
+func JSONPretty(status int, data any) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(status)
